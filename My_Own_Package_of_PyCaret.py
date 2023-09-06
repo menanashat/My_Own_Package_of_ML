@@ -263,12 +263,12 @@ if data is not None:
         st.info("There are no training columns or target columns")
     
 
-st.text("Line Plot the deifferent between the real value and predicted valure")
-if data is not None:
-    fig=plt.figure(figsize=(10,10))
-    plt.plot(y_test)
-    plt.plot(pred)
-    st.pyplot(fig)
+# st.text("Line Plot the deifferent between the real value and predicted valure")
+# if data is not None:
+#     fig=plt.figure(figsize=(10,10))
+#     plt.plot(y_test)
+#     plt.plot(pred)
+#     st.pyplot(fig)
 
 
 
