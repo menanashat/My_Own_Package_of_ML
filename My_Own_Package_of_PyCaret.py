@@ -39,6 +39,22 @@ if data is not None :
      data=data.dropna()
      st.write(data.head(10))
 
+st.text('columns types')
+
+if data is not None :
+     st.write(data.dtypes)
+
+st.text('Drop any column you want')
+
+if data is not None :
+    numeric_lists=data.columns
+
+    colsLinea = st.selectbox("Choics Column",
+                    numeric_lists)
+    btn=st.button('Click me')
+    if btn:
+        data=data.drop(colsLinea,axis=1)
+
 st.text('Clean the duplicated Value')     
 if data is not None :
 	#drop_duplciate_columns
@@ -110,10 +126,11 @@ if data is not None :
 
 st.header("Deploy Machine Learning")
 if data is not None:
-    machine_learning_name=['LinearRegression','LogisticRegression','DecisionTreeClassifier',
-                           'DecisionTreeRegressor','RandomForestClassifier','RandomForestRegressor','SVC','XGBClassifier','SGDClassifier']
-    ML= st.selectbox("Choics Mmachibe Learning Mehtod",
-                    machine_learning_name)
+    machine_learning_Regression_Method=['LinearRegression','LogisticRegression',
+                           'DecisionTreeRegressor','RandomForestRegressor','SVC']
+    machine_learning_Classification_Medthos=['DecisionTreeClassifier',
+                           'RandomForestClassifier','SVC','XGBClassifier','SGDClassifier']
+
     list_of_columns=data.columns
 
     Target_Column= st.selectbox("Choics the Target column",
@@ -121,6 +138,22 @@ if data is not None:
     
     Traing_Column= st.multiselect("Choics the Training columns",
                     list_of_columns)
+    num_unique_classes = data[Target_Column].nunique()
+    if pd.api.types.is_numeric_dtype(data[Target_Column]) ==False:
+        print('here')
+        print('here')
+        print(pd.api.types.is_numeric_dtype(data[Target_Column]))
+        data[Target_Column] = data[Target_Column].astype('category')
+        ML= st.selectbox("Choics Machibe Learning Mehtod",
+                    machine_learning_Classification_Medthos)
+    
+
+    elif pd.api.types.is_numeric_dtype(data[Target_Column]) and (num_unique_classes!=2  and num_unique_classes!=3 and num_unique_classes!=4):
+        ML= st.selectbox("Choics Machibe Learning Mehtod",
+                    machine_learning_Regression_Method)
+         
+    
+        
     is_numeric=data[Target_Column].apply(lambda x: isinstance(x, (int, float))).all()
     if len(Target_Column) != 0  and len(Traing_Column) != 0 and len(list_of_columns) != 0 :
         if not is_numeric:
