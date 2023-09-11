@@ -12,6 +12,7 @@ from sklearn.metrics import r2_score,accuracy_score,precision_score,recall_score
 from sklearn.preprocessing import LabelEncoder
 from sklearn.svm import SVC
 from xgboost import XGBClassifier
+from pycaret.classification import *
 
 st.header('My Own Package of ML')
 
@@ -140,8 +141,6 @@ if data is not None:
                     list_of_columns)
     num_unique_classes = data[Target_Column].nunique()
     if pd.api.types.is_numeric_dtype(data[Target_Column]) ==False:
-        print('here')
-        print('here')
         print(pd.api.types.is_numeric_dtype(data[Target_Column]))
         data[Target_Column] = data[Target_Column].astype('category')
         ML= st.selectbox("Choics Machibe Learning Mehtod",
@@ -286,7 +285,7 @@ if data is not None:
             # resprecision =precision_score(y_test,pred,average='micro')
             # resrecall=recall_score(y_test,pred)
             st.write("the accuracy using r2_score is",resultr2)
-            st.write("the accuracy using score is",reslutscore)
+            st.write("the accuracy using sco    re is",reslutscore)
             # st.write("the accuracy using accuracy_score is",resaccuracy)
             # st.write("the accuracy using precision_score is",resprecision)
             # st.write("the accuracy using recall_score is",resrecall)
@@ -303,9 +302,19 @@ if data is not None:
 #     plt.plot(pred)
 #     st.pyplot(fig)
 
+st.text("Pyceart")
+
+s = setup(data, target = data[Target_Column])
+best = compare_models()
 
 
+st.set_option('deprecation.showPyplotGlobalUse', False)
+st.pyplot(plot_model(best, plot = 'auc'))
 
 
+save_model(best, 'my_best_pipeline')
+
+loaded_model = load_model('my_best_pipeline')
+st.write(loaded_model)
 
 
